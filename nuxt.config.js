@@ -30,8 +30,8 @@ module.exports = {
     color: '#21222e',
     background: '#f2f2f2'
   },
-  css: ['@/assets/main.scss'],
-  plugins: ['@/plugins/apex-chart.js'],
+  css: ['~/assets/theme.scss'],
+  plugins: ['~/plugins/apex-chart.js'],
   buildModules: ['@nuxtjs/eslint-module'],
   modules: [
     'bootstrap-vue/nuxt',
