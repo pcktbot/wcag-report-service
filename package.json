@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@getg5/g5-updatable": "^2.1.0",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/google-analytics": "^2.2.3",
@@ -19,9 +20,11 @@
     "bootstrap": "^4.1.3",
     "bootstrap-vue": "^2.0.0",
     "cross-env": "^5.2.0",
+    "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "greenlock-express": "^4.0.3",
     "greenlock-store-fs": "^3.2.2",
+    "moment": "^2.24.0",
     "nuxt": "^2.0.0",
     "path": "^0.12.7",
     "pg": "^7.18.2",

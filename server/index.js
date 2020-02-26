@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
@@ -18,7 +19,7 @@ async function start () {
     const builder = new Builder(nuxt)
     await builder.build()
   }
-
+  require('./routes')(app)
   app.use(nuxt.render)
 
   app.listen(port, host)
