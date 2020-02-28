@@ -154,13 +154,12 @@ export default {
   top: 0%;
   height: 100%;
   right: 0;
-  width: 70px;
+  width: 60px;
   content: "";
-  border: 1px solid red;
   transform: translate(100%, 0%);
 }
 .full-height.is-hidden:hover {
-  transform: translate(-90%, 0%);
+  transform: translate(-95%, 0%);
 }
 .drawer-content {
   overflow-x: hidden;
