@@ -1,6 +1,6 @@
 const moment = require('moment')
 const recFixes = require('../controllers/recFixes')
-const appendicexLU = require('../config/appendices')
+const newAppendix = require('../config/appendices')
 class Report {
   constructor(params) {
     this.audits = params.audits
@@ -17,7 +17,7 @@ class Report {
   }
 
   generate() {
-    this.appendices.total = appendicexLU
+    this.appendices.total = newAppendix()
     this.audits.forEach((audit) => {
       const g5Location = audit.dataValues.g5_updatable_location
       if (g5Location) {
@@ -93,54 +93,44 @@ class Report {
   }
 
   buildAppendices(summary, locationName) {
-    this.appendices[locationName] = appendicexLU
-    appendicexLU.forEach((appendix, i) => {
-      const { cards, name, catCount, categoryDesc, catKeys, checkIds } = appendix
-      if (cards) {
-        const keys = Object.keys(cards)
-        keys.forEach((key) => {
-          const passes = cards[key].checkIds.reduce((total, checkId) => {
-            if (summary.passes[checkId]) {
-              total += summary.passes[checkId]
-            }
-            return total
-          }, 0)
-          const violations = cards[key].checkIds.reduce((total, checkId) => {
-            if (summary.violations[checkId]) {
-              total += summary.violations[checkId]
-            }
-            return total
-          }, 0)
-          this.appendices[locationName][i].cards[key].passes = passes
-          this.appendices[locationName][i].cards[key].violations = violations
-          if (!this.appendices.total[i].cards[key].passes) {
-            this.appendices.total[i].cards[key].passes = 0
-            this.appendices.total[i].cards[key].violations = 0
-          }
-          this.appendices.total[i].cards[key].passes += passes
-          this.appendices.total[i].cards[key].violations += violations
-        })
-      } else {
-        const passes = checkIds.reduce((total, checkId) => {
-          if (summary.passes[checkId]) {
-            total += summary.passes[checkId]
-          }
-          return total
-        }, 0)
-        const violations = checkIds.reduce((total, checkId) => {
-          if (summary.violations[checkId]) {
-            total += summary.violations[checkId]
-          }
-          return total
-        }, 0)
-        if (!this.appendices.total.passes) {
-          this.appendices.total.passes = 0
-          this.appendices.total.violations = 0
+    this.appendices[locationName] = newAppendix()
+    for (let i = 0; i < this.appendices[locationName].length; i++) {
+      const appendix = this.appendices[locationName][i]
+      const { checkIds } = appendix
+      this.appendices[locationName][i].passes = checkIds.reduce((total, checkId) => {
+        if (summary.passes[checkId]) {
+          total += summary.passes[checkId]
         }
-        this.appendices[locationName][i].passes = passes
-        this.appendices[locationName][i].violations = violations
-      }
-    })
+        return total
+      }, 0)
+      this.appendices[locationName][i].violations = checkIds.reduce((total, checkId) => {
+        if (summary.violations[checkId]) {
+          total += summary.violations[checkId]
+        }
+        return total
+      }, 0)
+      this.appendices[locationName][i].stars = this.calcStars(this.appendices[locationName][i].passes, (this.appendices[locationName][i].passes + this.appendices[locationName][i].violations))
+
+      this.appendices.total[i].passes += this.appendices[locationName][i].passes
+      this.appendices.total[i].violations += this.appendices[locationName][i].violations
+      this.appendices.total[i].stars = this.calcStars(this.appendices.total[i].passes, (this.appendices.total[i].passes + this.appendices.total[i].violations))
+    }
+  }
+
+  calcStars(pass, total) {
+    const score = pass / total
+    if (total === 0) {
+      return null
+    }
+    if (score === 1) {
+      return 3
+    } else if (score >= 0.75) {
+      return 2
+    } else if (total === 0) {
+      return 0
+    } else {
+      return 1
+    }
   }
 }
 
