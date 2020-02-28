@@ -1,4 +1,4 @@
-const { INTEGER, STRING } = require('sequelize')
+const { INTEGER, STRING, JSONB } = require('sequelize')
 
 module.exports = (sequelize) => {
   const wcagRun = sequelize.define('wcag_run', {
@@ -46,6 +46,9 @@ module.exports = (sequelize) => {
     },
     axeVersion: {
       type: STRING
+    },
+    summary: {
+      type: JSONB
     }
   }, {
     paranoid: true
