@@ -1,24 +1,6 @@
 const moment = require('moment')
 const recFixes = require('../controllers/recFixes')
 const appendicexLU = require('../config/appendices')
-
-const data = {
-  chart: {
-    pass: [],
-    fail: [],
-    category: []
-  },
-  tables: {
-    summary: [],
-    recFix: [],
-    fullList: []
-  },
-  tableTitles: {
-    summary: 'Portfolio Summary',
-    recFix: 'Recommended Fixes',
-    fullList: 'Full Failure List'
-  }
-}
 class Report {
   constructor(params) {
     this.audits = params.audits
