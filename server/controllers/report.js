@@ -35,6 +35,7 @@ class Report {
   }
 
   generate() {
+    this.appendices.total = appendicexLU
     this.audits.forEach((audit) => {
       const g5Location = audit.dataValues.g5_updatable_location
       if (g5Location) {
@@ -116,32 +117,46 @@ class Report {
       if (cards) {
         const keys = Object.keys(cards)
         keys.forEach((key) => {
-          this.appendices[locationName][i].cards[key].passes = cards[key].checkIds.reduce((total, checkId) => {
+          const passes = cards[key].checkIds.reduce((total, checkId) => {
             if (summary.passes[checkId]) {
               total += summary.passes[checkId]
             }
             return total
           }, 0)
-          this.appendices[locationName][i].cards[key].violations = cards[key].checkIds.reduce((total, checkId) => {
+          const violations = cards[key].checkIds.reduce((total, checkId) => {
             if (summary.violations[checkId]) {
               total += summary.violations[checkId]
             }
             return total
           }, 0)
+          this.appendices[locationName][i].cards[key].passes = passes
+          this.appendices[locationName][i].cards[key].violations = violations
+          if (!this.appendices.total[i].cards[key].passes) {
+            this.appendices.total[i].cards[key].passes = 0
+            this.appendices.total[i].cards[key].violations = 0
+          }
+          this.appendices.total[i].cards[key].passes += passes
+          this.appendices.total[i].cards[key].violations += violations
         })
       } else {
-        this.appendices[locationName][i].passes = checkIds.reduce((total, checkId) => {
+        const passes = checkIds.reduce((total, checkId) => {
           if (summary.passes[checkId]) {
             total += summary.passes[checkId]
           }
           return total
         }, 0)
-        this.appendices[locationName][i].violations = checkIds.reduce((total, checkId) => {
+        const violations = checkIds.reduce((total, checkId) => {
           if (summary.violations[checkId]) {
             total += summary.violations[checkId]
           }
           return total
         }, 0)
+        if (!this.appendices.total.passes) {
+          this.appendices.total.passes = 0
+          this.appendices.total.violations = 0
+        }
+        this.appendices[locationName][i].passes = passes
+        this.appendices[locationName][i].violations = violations
       }
     })
   }
