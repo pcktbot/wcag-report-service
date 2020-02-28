@@ -8,7 +8,8 @@ export default {
           animations: { enabled: true }
         },
         legend: {
-          floating: true
+          floating: true,
+          position: 'top'
         },
         plotOptions: {
           bar: {
@@ -34,15 +35,14 @@ export default {
         grid: { show: false },
         fill: { opacity: 1 },
         xaxis: {
-          title: {
-            text: 'SUM CHECKED ITEMS by SEVERITY',
-            offsetX: 50,
-            style: {
-              fontSize: '16px',
-              fontFamily: 'Roboto',
-              fontWeight: 300
-            }
-          },
+          // title: {
+          //   text: 'SUM CHECKED ITEMS by SEVERITY',
+          //   style: {
+          //     fontSize: '16px',
+          //     fontFamily: 'Roboto',
+          //     fontWeight: 300
+          //   }
+          // },
           axisBorder: {
             show: false
           },
