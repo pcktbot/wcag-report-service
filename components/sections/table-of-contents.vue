@@ -15,12 +15,13 @@
           <b-list-group-item
             v-for="section in sections"
             :key="section.id"
-            class="text-right border-0"
+            class="border-0 d-flex align-items-stretch p-0"
           >
             <a
               :id="section.id"
-              :href="section.targetId"
-              class="toc-anchor py-1 px-2"
+              v-smooth-scroll="{ updateHistory: false }"
+              :href="`#${section.targetId}`"
+              class="toc-anchor py-2 px-3 w-100 d-flex justify-content-between"
             >
               <span class="pl-1">
                 {{ section.label }}
@@ -87,9 +88,7 @@ export default {
 }
 .toc-anchor {
   color: #7898ad;
-}
-.toc-anchor > span {
-  border-bottom: 3px solid #7898ad;
+  /* border-bottom: 3px solid #7898ad; */
 }
 .toc-anchor:hover {
   background-color: #7898ad;
