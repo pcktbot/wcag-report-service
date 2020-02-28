@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="break-after p-0 m-0">
+  <b-container fluid class="break-after p-0 my-5">
     <slot name="heading" />
     <b-row>
       <b-col cols="6">
@@ -58,20 +58,5 @@ export default {}
 </script>
 
 <style>
-.intro-heading {
-  font-size: 16pt;
-  font-weight: 700;
-  letter-spacing: 0.1rem;
-  margin-bottom: 15px;
-}
-.intro-list li {
-  margin-bottom: 15px;
-}
-.intro-paragraph {
-  font-size: 12pt;
-  font-weight: 300;
-}
-.intro-bold {
-  font-weight: 700;
-}
+
 </style>

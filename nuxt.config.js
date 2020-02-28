@@ -31,7 +31,10 @@ module.exports = {
     background: '#f2f2f2'
   },
   css: ['~/assets/theme.scss'],
-  plugins: ['~/plugins/apex-chart.js'],
+  plugins: [
+    '~/plugins/apex-chart.js',
+    '~/plugins/smooth-scroll.js'
+  ],
   buildModules: ['@nuxtjs/eslint-module'],
   modules: [
     'bootstrap-vue/nuxt',
