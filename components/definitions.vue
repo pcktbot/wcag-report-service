@@ -1,6 +1,6 @@
 <template>
   <b-card
-    :class="[{ 'is-visible': isVisible }, 'card-drawer', 'border-0', 'my-4']"
+    :class="[{ 'is-visible': isVisible }, 'card-drawer', 'border-0']"
     no-body
     bg-variant="white"
   >
@@ -10,7 +10,7 @@
       pill
       class="py-0 px-1 card-btn"
     >
-      <right-caret :color="`currentColor`" :size="`2em`" />
+      <right-caret :color="`currentColor`" :size="`1.5em`" />
     </b-btn>
     <b-card-header class="border-0">
       <h3 class="text-uppercase text-center intro-heading mb-0">
@@ -18,12 +18,12 @@
       </h3>
       <hr width="40%" class="mx-auto cover-divider">
     </b-card-header>
-    <b-card-body>
+    <b-card-body class="pt-1">
       <h3 class="text-uppercase font-weight-light text-tertiary">
         <warning-icon
           :color="`white`"
           :fill="`currentColor`"
-          :size="1.5"
+          :size="1.25"
           :text-align="`text-center`"
         />
         Critical
@@ -35,7 +35,7 @@
         <warning-icon
           :color="`white`"
           :fill="`currentColor`"
-          :size="1.5"
+          :size="1.25"
           :text-align="`text-center`"
         />
         Serious
@@ -55,19 +55,64 @@
       <p>
         People with certain disabilities have minor difficulty in the user being able to utilize the content.
       </p>
+      <b-list-group class="border-0 pt-1">
+        <b-list-group-item
+          v-for="(star, i) in stars"
+          :key="i"
+          class="d-flex p-0 justify-content-start align-items-start border-0"
+        >
+          <vue-stars
+            :name="star.id"
+            :max="3"
+            :value="i + 1"
+            :readonly="true"
+            active-color="#0b233f"
+            shadow-color="transparent"
+          />
+          <p class="pl-3 font-weight-bold">
+            {{ star.label }}
+            <span class="font-weight-light">
+              {{ star.text }}
+            </span>
+          </p>
+        </b-list-group-item>
+      </b-list-group>
     </b-card-body>
   </b-card>
 </template>
 
 <script>
+import { VueStars } from 'vue-stars'
 import RightCaret from '~/components/icons/right-caret'
 import WarningIcon from '~/components/icons/warning'
 export default {
   components: {
+    VueStars,
     RightCaret,
     WarningIcon
   },
-  props: ['isVisible']
+  props: ['isVisible'],
+  data() {
+    return {
+      stars: [
+        {
+          id: 'one-star',
+          label: '1 Star:',
+          text: 'Does not meet standard'
+        },
+        {
+          id: 'two-star',
+          label: '2 Star:',
+          text: 'Opportunity for improvement'
+        },
+        {
+          id: 'three-star',
+          label: '3 Star:',
+          text: 'Meets standard'
+        }
+      ]
+    }
+  }
 }
 </script>
 

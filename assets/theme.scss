@@ -22,6 +22,12 @@ $bv-enable-table-stacked: false;
   letter-spacing: 0.1rem;
   margin-bottom: 15px;
 }
+.intro-subheading {
+  font-size: 14pt;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  margin-bottom: 15px;
+}
 .intro-list li {
   margin-bottom: 15px;
 }
@@ -34,6 +40,9 @@ $bv-enable-table-stacked: false;
 }
 .cover-divider {
   border-top: 4px double #8D9198;
+}
+.gradient-bg {
+  background: linear-gradient(35deg, #e8e8e8, transparent);
 }
 
 @import 'bootstrap/scss/bootstrap.scss';
