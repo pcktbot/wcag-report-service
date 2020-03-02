@@ -61,7 +61,7 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col class="my-5">
+          <b-col id="by-location" class="my-5">
             <transition name="fade" appear>
               <h2 class="mb-4 intro-heading">
                 SUMMARY by LOCATION
@@ -78,7 +78,7 @@
                 <template v-slot:cell(name)="{ item }">
                   <a
                     v-smooth-scroll
-                    :href="`#recFix`"
+                    :href="`#by-topic`"
                     @click="setAllFilters(item.name)"
                     class="font-weight-bold"
                   >
@@ -316,6 +316,12 @@ export default {
           hasChild: false
         },
         {
+          id: 'location-link',
+          label: 'Summary by Location',
+          targetId: 'by-location',
+          hasChild: false
+        },
+        {
           id: 'topic-link',
           label: 'Summary by Topic',
           targetId: 'by-topic',
@@ -398,6 +404,7 @@ export default {
       return this.tables.findIndex(table => table.keyId === id)
     },
     setAllFilters(location) {
+      this.appendices = this.response.appendices[location]
       this.helper.forEach((helper, i) => {
         this.helper[i].filter = location
       })
