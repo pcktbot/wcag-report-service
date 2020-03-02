@@ -24,8 +24,10 @@ class Report {
         const summary = audit.dataValues.summary
         const locationName = (g5Location.display_name === '' || g5Location.display_name === null) ? g5Location.name : g5Location.display_name
         this.buildLocationSummary(audit, locationName)
-        this.addLocationVioloations(audit)
-        this.buildAppendices(summary, locationName)
+        this.addLocationVioloations(audit, locationName)
+        if (summary) {
+          this.buildAppendices(summary, locationName)
+        }
       }
     })
 
@@ -69,11 +71,11 @@ class Report {
     this.impactCounts.minor.pass += minor_count
   }
 
-  addLocationVioloations(audit) {
+  addLocationVioloations(audit, propertyName) {
     audit.wcag_violations.forEach((violation) => {
       const { element, description, html, target, summary, wcag_page, wcag_impact } = violation.dataValues
       const failureInfo = {
-        propertyName: location.name,
+        propertyName,
         element,
         impact: wcag_impact.name,
         page: wcag_page.url,
@@ -84,6 +86,7 @@ class Report {
       }
       this.tables.fullList.push(failureInfo)
       if (recFixes.includes(violation.dataValues.element)) {
+        console.log('here')
         this.tables.recFix.push(failureInfo)
       }
       if (wcag_impact.name) {
