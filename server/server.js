@@ -16,7 +16,6 @@ require('greenlock-express')
     cluster: false
   })
   .ready(async (glx) => {
-    const app = require('./express.js')
     const nuxt = new Nuxt(config)
 
     if (config.dev) {
