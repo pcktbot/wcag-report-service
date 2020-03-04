@@ -22,13 +22,13 @@
           <p v-if="card.passes" class="d-flex flex-column justify-content-start">
             <span class="mb-2 text-uppercase">
               Passes:
-              <b-badge variant="primary" class="better-pill py-2 px-3">
+              <b-badge variant="primary" class="better-pill p-2">
                 {{ card.passes }}
               </b-badge>
             </span>
             <span class="text-uppercase">
               Failures:
-              <b-badge variant="primary" class="border border-white better-pill py-2 px-3">
+              <b-badge variant="primary" class="border border-white better-pill p-2">
                 {{ card.violations }}
               </b-badge>
             </span>
@@ -41,7 +41,7 @@
             :readonly="true"
             active-color="#0b233f"
             shadow-color="transparent"
-            />
+          />
         </b-card>
       </b-col>
     </b-row>

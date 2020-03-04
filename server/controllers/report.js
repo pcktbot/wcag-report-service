@@ -86,7 +86,6 @@ class Report {
       }
       this.tables.fullList.push(failureInfo)
       if (recFixes.includes(violation.dataValues.element)) {
-        console.log('here')
         this.tables.recFix.push(failureInfo)
       }
       if (wcag_impact.name) {
