@@ -2,17 +2,15 @@ require('dotenv').config()
 const { Nuxt, Builder } = require('nuxt')
 const config = require('../nuxt.config.js')
 const models = require('./models')
+const path = require('path')
 
 config.dev = !(process.env.NODE_ENV === 'production')
 
 require('greenlock-express')
   .init({
-    packageRoot: __dirname,
-
-    // contact for security and critical bug notices
+    packageRoot: path.resolve('../', __dirname),
     configDir: '../greenlock.d',
     maintainerEmail: 'david.miller@getg5.com',
-    // whether or not to run at cloudscale
     cluster: false
   })
   .ready(async (glx) => {
