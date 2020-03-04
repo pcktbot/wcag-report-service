@@ -8,7 +8,7 @@ config.dev = !(process.env.NODE_ENV === 'production')
 
 require('greenlock-express')
   .init({
-    packageRoot: path.resolve('../', __dirname),
+    packageRoot: path.resolve(__dirname, '..'),
     configDir: '../greenlock.d',
     maintainerEmail: 'david.miller@getg5.com',
     cluster: false
