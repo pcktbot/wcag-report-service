@@ -289,7 +289,7 @@ export default {
   async asyncData({ $axios, route }) {
     return {
       route: `api${route.fullPath}`,
-      response: await $axios.$get(`http://localhost:2020/api${route.fullPath}`)
+      response: await $axios.$get(`api${route.fullPath}`)
     }
   },
   data() {
