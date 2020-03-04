@@ -3,6 +3,8 @@ const { Nuxt, Builder } = require('nuxt')
 const config = require('../nuxt.config.js')
 const models = require('./models')
 const path = require('path')
+const express = require('express')
+const app = express()
 
 config.dev = !(process.env.NODE_ENV === 'production')
 
@@ -23,6 +25,7 @@ require('greenlock-express')
     } else {
       await nuxt.ready()
     }
+    require('./routes')(app)
     app.use(nuxt.render)
     models.sequelize.sync().then(() => glx.serveApp(app))
   })
