@@ -11,7 +11,7 @@ require('greenlock-express')
 
     // contact for security and critical bug notices
     configDir: '../greenlock.d',
-
+    maintainerEmail: 'david.miller@getg5.com',
     // whether or not to run at cloudscale
     cluster: false
   })
