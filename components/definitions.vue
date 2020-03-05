@@ -12,7 +12,7 @@
     >
       <right-caret :color="`currentColor`" :size="`1.5em`" />
     </b-btn>
-    <b-card-header class="border-0">
+    <b-card-header class="border-0 bg-white">
       <h3 class="text-uppercase text-center intro-heading mb-0">
         Definitions
       </h3>
