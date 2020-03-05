@@ -1,7 +1,7 @@
 {
   "name": "wcag-report-service",
   "version": "1.0.0",
-  "description": "My awesome Nuxt.js project",
+  "description": "The G5 Website Accessibility Review Report identifies issues that may be limiting the accessibility and the performance of your website.",
   "author": "David Miller",
   "private": true,
   "scripts": {
