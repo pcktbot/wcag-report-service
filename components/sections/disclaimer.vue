@@ -8,6 +8,7 @@
             <h2 class="text-uppercase mb-0 intro-heading">
               Disclaimer
             </h2>
+            <hr width="30%" class="cover-divider mb-0">
           </b-card-header>
           <b-card-body class="intro-paragraph">
             G5 provides a website accessibility report based on Web Content Accessibility Guidelines (WCAG) 2.0 Level A. The report is only valid at the moment it is run and does not take into account any subsequent website modifications. G5 does not represent, warrant, or certify compliance with the Americans with Disabilities Act or with WCAG Guidelines, and disclaims any liability related to the report.

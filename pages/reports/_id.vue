@@ -41,9 +41,10 @@
             <transition name="fade" appear>
               <b-card no-body class="my-5 py-3 border-0">
                 <b-card-header class="border-0">
-                  <h2 class="mb-4 intro-heading">
+                  <h2 class="intro-heading">
                     SUMMARY of USER IMPACT
                   </h2>
+                  <hr width="30%" class="cover-divider mb-5">
                 </b-card-header>
                 <b-card-body class="p-0 d-flex justify-content-between border-0 bg-white">
                   <b-card-text class="font-weight-light px-3">
@@ -62,13 +63,12 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col id="by-location" class="my-5">
-            <transition name="fade" appear>
-              <h2 class="mb-5 intro-heading">
+          <transition name="fade" appear>
+            <b-col id="by-location" class="my-5">
+              <h2 class="intro-heading">
                 SUMMARY by LOCATION
               </h2>
-            </transition>
-            <transition name="fade" appear>
+              <hr width="30%" class="cover-divider mb-5">
               <div class="bg-striped px-4 py-3 d-flex w-100 justify-content-between align-items-end">
                 <b-form-group
                   label="Locations Per Page"
@@ -88,8 +88,6 @@
                   class="mb-0 font-weight-light"
                 />
               </div>
-            </transition>
-            <transition name="fade" appear>
               <b-table
                 ref="summary-of-locations"
                 :items="summary.items"
@@ -126,16 +124,17 @@
                   </span>
                 </template>
               </b-table>
-            </transition>
-          </b-col>
+            </b-col>
+          </transition>
         </b-row>
         <b-row id="by-topic">
           <b-col cols="12">
             <transition name="fade" appear>
               <div>
-                <h2 class="mb-4 intro-heading text-primary">
+                <h2 class="intro-heading text-primary">
                   SUMMARY BY ACCESSIBILITY TOPIC
                 </h2>
+                <hr width="30%" class="cover-divider mb-5">
                 <b-input-group
                   class="mb-0 font-weight-light d-flex align-items-center w-50"
                 >
