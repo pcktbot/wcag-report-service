@@ -465,7 +465,9 @@ export default {
       return this.tables.findIndex(table => table.keyId === id)
     },
     setAllFilters(location) {
-      this.appendices = this.response.appendices[location]
+      location === null
+        ? this.appendices = this.response.appendices.total
+        : this.appendices = this.response.appendices[location]
       this.helper.forEach((helper, i) => {
         this.helper[i].filter = location
       })
