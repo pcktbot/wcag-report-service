@@ -6,7 +6,7 @@ module.exports = {
     port: process.env.PORT || 2020
   },
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Accessibility Report',
     meta: [
       { charset: 'utf-8' },
       {
