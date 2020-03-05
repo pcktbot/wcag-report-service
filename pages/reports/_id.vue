@@ -1,5 +1,6 @@
 <template>
-<b-container fluid class="px-4">
+  <b-container fluid class="px-4">
+    <copyright />
     <drawer>
       <template v-slot:button-text>
         <list-icon :color="`currentColor`" />
@@ -63,15 +64,39 @@
         <b-row>
           <b-col id="by-location" class="my-5">
             <transition name="fade" appear>
-              <h2 class="mb-4 intro-heading">
+              <h2 class="mb-5 intro-heading">
                 SUMMARY by LOCATION
               </h2>
             </transition>
             <transition name="fade" appear>
+              <div class="bg-striped px-4 py-3 d-flex w-100 justify-content-between align-items-end">
+                <b-form-group
+                  label="Locations Per Page"
+                  label-cols="4"
+                  label-align="right"
+                  class="mb-0 font-weight-light text-uppercase flex-grow-1 mr-4"
+                >
+                  <b-form-select
+                    v-model="summaryHelpers.perPage"
+                    :options="[5, 10, 20]"
+                  />
+                </b-form-group>
+                <b-pagination
+                  v-model="summaryHelpers.currentPage"
+                  :total-rows="summary.totalRows"
+                  :per-page="summaryHelpers.perPage"
+                  class="mb-0 font-weight-light"
+                />
+              </div>
+            </transition>
+            <transition name="fade" appear>
               <b-table
+                ref="summary-of-locations"
                 :items="summary.items"
                 :fields="summary.fields"
                 :sort-desc="false"
+                :per-page="summaryHelpers.perPage"
+                :current-page="summaryHelpers.currentPage"
                 sort-by="name"
                 striped
               >
@@ -111,6 +136,17 @@
                 <h2 class="mb-4 intro-heading text-primary">
                   SUMMARY BY ACCESSIBILITY TOPIC
                 </h2>
+                <b-input-group
+                  class="mb-0 font-weight-light d-flex align-items-center w-50"
+                >
+                  <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
+                    Filter to Location
+                  </b-input-group-prepend>
+                  <b-form-select
+                    v-model="summaryHelpers.filter"
+                    :options="locations"
+                  />
+                </b-input-group>
                 <card-grid :cards="appendices" :cols="`4`" />
               </div>
             </transition>
@@ -138,10 +174,10 @@
               {{ table.name }}
             </h2>
             <p class="w-75 font-weight-light">
-              The items listed below are items you can work with your G5 team to resolve as soon as possible. The page count details the number of pages where the update is needed, while the item count details the instances of the issue.*
+              {{ disclaimerText[table.keyId].text }}
               <br>
               <span class="text-tertiary">
-                *Depending on configuration, a site or page can contain multiple items related to the same review element.
+                {{ disclaimerText[table.keyId].clarification }}
               </span>
             </p>
           </b-card-header>
@@ -154,16 +190,15 @@
             :filter="helper[findIndex(table.keyId)].filter"
             :sort-desc="false"
             show-empty
+            responsive
             empty-filtered-text="There were no failures for this location within this section."
             sort-by="propertyName"
-            fixed
-            responsive
             striped
             class="mb-0"
           >
             <template v-slot:thead-top>
               <b-tr class="bg-striped">
-                <b-th colspan="3">
+                <b-th colspan="2">
                   <b-input-group
                     class="mb-0 font-weight-light d-flex align-items-center"
                   >
@@ -178,7 +213,7 @@
                       v-show="helper[findIndex(table.keyId)].filter !== ''"
                     >
                       <b-btn
-                        @click="helper[findIndex(table.keyId)].filter = ''"
+                        @click="helper.forEach(help => help.filter = '')"
                         variant="outline-primary"
                       >
                         Clear
@@ -200,15 +235,15 @@
                   </b-form-group>
                 </b-th>
                 <b-th colspan="2">
-                  <b-pagination
-                    v-model="helper[findIndex(table.keyId)].currentPage"
-                    :total-rows="helper[findIndex(table.keyId)].totalRows"
-                    :per-page="helper[findIndex(table.keyId)].perPage"
-                    class="mb-0 font-weight-light"
-                  />
-                </b-th>
-                <b-th class="text-right">
-                  <toggle-btn @toggle-defs="showDefinitions = !showDefinitions" />
+                  <div class="d-flex justify-content-between">
+                    <b-pagination
+                      v-model="helper[findIndex(table.keyId)].currentPage"
+                      :total-rows="helper[findIndex(table.keyId)].totalRows"
+                      :per-page="helper[findIndex(table.keyId)].perPage"
+                      class="mb-0 font-weight-light"
+                    />
+                    <toggle-btn @toggle-defs="showDefinitions = !showDefinitions" />
+                  </div>
                 </b-th>
               </b-tr>
             </template>
@@ -244,12 +279,13 @@
               </p>
             </template>
             <template v-slot:cell(html)="{ item }">
-              <code class="text-tertiary text-truncate full-text-container">
+              <p class="text-monospace text-tertiary text-truncate full-text-container">
                 {{ item.html }}
-              </code>
+              </p>
             </template>
-            <template v-slot:cell(target)="{ item }">
-              <code class="text-tertiary">
+            <template v-slot:cell(element)="{ item }">
+              {{ item.element }}
+              <code class="d-block text-tertiary">
                 {{ item.target }}
               </code>
             </template>
@@ -266,6 +302,7 @@ import Drawer from '~/components/drawer'
 import WarningIcon from '~/components/icons/warning'
 import Definitions from '~/components/definitions'
 import CardGrid from '~/components/card-grid'
+import Copyright from '~/components/copyright'
 import ToggleBtn from '~/components/toggle-defs'
 import ListIcon from '~/components/icons/list'
 import Cover from '~/components/sections/cover'
@@ -278,6 +315,7 @@ export default {
     Cover,
     WarningIcon,
     CardGrid,
+    Copyright,
     ListIcon,
     Definitions,
     ToggleBtn,
@@ -296,6 +334,24 @@ export default {
     return {
       helper: [],
       showDefinitions: false,
+      appendices: null,
+      summaryHelpers: {
+        filter: '',
+        csv: [],
+        downloadCsv: '',
+        perPage: 10,
+        currentPage: 1
+      },
+      disclaimerText: {
+        recFix: {
+          text: 'The items listed below are items you can work with your G5 team to resolve as soon as possible. The page count details the number of pages where the update is needed, while the item count details the instances of the issue.*',
+          clarification: '*Depending on configuration, a site or page can contain multiple items related to the same review element.'
+        },
+        fullList: {
+          text: '',
+          clarification: ''
+        }
+      },
       sections: [
         {
           id: 'intro-link',
@@ -342,7 +398,14 @@ export default {
       ],
       keys: {
         alignRight: ['pages', 'pass', 'total', 'fail', 'target'],
-        alignCenter: ['impact', 'date', 'axeVersion']
+        alignCenter: ['impact', 'date', 'axeVersion'],
+        lookup: {
+          propertyName: 'text-left w-15',
+          element: 'text-left w-10',
+          html: 'text-left w-15',
+          page: 'text-left w-20',
+          summary: 'text-left w-20'
+        }
       }
     }
   },
@@ -354,9 +417,6 @@ export default {
           name: `${chart[0].toUpperCase()}${chart.slice(1)}`,
           data: this.response.chart[chart]
         }))
-    },
-    appendices() {
-      return this.response.appendices.total
     },
     cards() {
       return Object.keys(this.response.appendices.total[0].cards).map(key => ({
@@ -390,14 +450,16 @@ export default {
       return {
         items: this.response.tables.summary,
         fields: this.createFields(this.response.tables.summary[0]),
-        csv: [],
-        downloadCsv: ''
+        totalRows: this.response.tables.summary.length
       }
     },
     locations() {
       const locations = this.response.tables.summary.map(row => row.name)
       return [{ value: '', text: 'Show All' }, ...locations]
     }
+  },
+  created() {
+    this.appendices = this.response.appendices.total
   },
   methods: {
     findIndex(id) {
@@ -408,6 +470,7 @@ export default {
       this.helper.forEach((helper, i) => {
         this.helper[i].filter = location
       })
+      this.summaryHelpers.filter = location
     },
     createHelpers(table) {
       this.helper.push({
@@ -422,14 +485,17 @@ export default {
     },
     createFields(items) {
       return Object.keys(items)
+        .filter(key => !['description', 'target'].includes(key))
         .map(key => ({
           key,
           sortable: true,
-          class: (this.keys.alignCenter.includes(key))
-            ? 'text-center'
-            : (this.keys.alignRight.includes(key))
-              ? 'text-right'
-              : 'text-left'
+          class: (Object.keys(this.keys.lookup).includes(key))
+            ? this.keys.lookup[key]
+            : (this.keys.alignCenter.includes(key))
+              ? 'text-center'
+              : (this.keys.alignRight.includes(key))
+                ? 'text-right'
+                : 'text-left'
         }))
     },
     formatStopLight(item) {
@@ -442,8 +508,22 @@ export default {
   }
 }
 </script>
-
 <style>
+.text-monospace {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85em;
+  max-width: 250px;
+  /* ^ A SERIOUS FAUX PAS, I KNOW */
+}
+.w-15 {
+  width: 15%;
+}
+.w-10 {
+  width: 10%;
+}
+.w-20 {
+  width: 20%;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity 750ms;
   transition-delay: 500ms;
