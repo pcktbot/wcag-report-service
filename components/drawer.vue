@@ -8,19 +8,19 @@
       appear
       appear-to-class="shake-vertical"
     >
-    <b-btn
-      id="toggle-drawer"
-      :class="btnStyles"
-      :disabled="options.isDisabled"
-      @click="isVisible = !isVisible"
-      variant="primary"
-      class="drawer-btn p-0"
-    >
-      <slot name="button-text">
-        <left-caret v-if="isVisible" :color="`currentColor`" />
-        <right-caret v-else :color="`currentColor`" />
-      </slot>
-    </b-btn>
+      <b-btn
+        id="toggle-drawer"
+        :class="btnStyles"
+        :disabled="options.isDisabled"
+        @click="isVisible = !isVisible"
+        variant="primary"
+        class="drawer-btn p-0"
+      >
+        <slot name="button-text">
+          <left-caret v-if="isVisible" :color="`currentColor`" />
+          <right-caret v-else :color="`currentColor`" />
+        </slot>
+      </b-btn>
     </transition>
     <b-card no-body class="drawer-content border-0">
       <slot name="content" />
