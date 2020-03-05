@@ -17,32 +17,28 @@ export default {
             barHeight: '90%',
             horizontal: true,
             dataLabels: {
-              hideOverflowingLabels: true,
+              hideOverflowingLabels: false,
               orientation: 'horizontal'
             }
           }
         },
         dataLabels: {
+          formatter(val) {
+            return val
+              .toString()
+              .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+          },
+          textAnchor: 'middle',
+          offsetX: 10,
           style: {
             fontSize: '16px',
             fontFamily: 'Roboto',
-            colors: ['#e8e8e8']
-          },
-          dropShadow: {
-            enabled: true
+            colors: ['#d6d6d6', '#0b233f']
           }
         },
         grid: { show: false },
         fill: { opacity: 1 },
         xaxis: {
-          // title: {
-          //   text: 'SUM CHECKED ITEMS by SEVERITY',
-          //   style: {
-          //     fontSize: '16px',
-          //     fontFamily: 'Roboto',
-          //     fontWeight: 300
-          //   }
-          // },
           axisBorder: {
             show: false
           },
@@ -57,7 +53,7 @@ export default {
         yaxis: {
           title: {
             text: 'SEVERITY',
-            offsetX: 10,
+            offsetX: 15,
             style: {
               fontSize: '16px',
               fontFamily: 'Roboto',
