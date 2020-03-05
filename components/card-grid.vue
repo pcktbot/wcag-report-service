@@ -13,9 +13,9 @@
           <h3 class="intro-header text-uppercase text-tertiary">
             {{ card.heading }}
           </h3>
-          <h4 class="intro-subheader text-uppercase text-primary">
+          <!-- <h4 class="intro-subheader text-uppercase text-primary">
             {{ card.subHeading }}
-          </h4>
+          </h4> -->
           <p class="font-weight-light">
             {{ card.description }}
           </p>

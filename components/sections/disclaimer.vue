@@ -4,7 +4,7 @@
     <b-row no-gutters>
       <b-col>
         <b-card no-body bg-variant="white" class="border-0">
-          <b-card-header class="border-0">
+          <b-card-header class="border-0 bg-white">
             <h2 class="text-uppercase mb-0 intro-heading">
               Disclaimer
             </h2>
@@ -12,7 +12,7 @@
           <b-card-body class="intro-paragraph">
             G5 provides a website accessibility report based on Web Content Accessibility Guidelines (WCAG) 2.0 Level A. The report is only valid at the moment it is run and does not take into account any subsequent website modifications. G5 does not represent, warrant, or certify compliance with the Americans with Disabilities Act or with WCAG Guidelines, and disclaims any liability related to the report.
           </b-card-body>
-          <b-card-footer class="intro-bold border-0">
+          <b-card-footer class="intro-bold border-0 bg-white">
             Prepared On: {{ preparedOn }}
           </b-card-footer>
         </b-card>

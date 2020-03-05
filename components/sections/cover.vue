@@ -19,11 +19,6 @@
         Summary of {{ names.client }} - {{ names.count }} Properties
       </div>
     </div>
-    <div class="text-right my-3">
-      <p>
-        © G5 {{ new Date().getFullYear() }}
-      </p>
-    </div>
   </div>
 </template>
 
