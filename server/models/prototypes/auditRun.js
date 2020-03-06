@@ -21,13 +21,23 @@ async function generateReport (where, models) {
     },
     {
       model: models.g5_updatable_location,
-      attributes: ['name', 'display_name']
+      attributes: ['name', 'display_name', 'client_urn']
     }
     ],
     order: [
       ['run_group', 'DESC']
     ]
   })
-  const report = new WcagReport({ audits })
+  console.log(audits[0].dataValues.g5_updatable_location)
+  const clientName = await models.g5_updatable_client.findOne({
+    where: {
+      urn: audits[0].dataValues.g5_updatable_location.client_urn
+    }
+  }).then(client => {
+    const { name } = client.dataValues
+    const { branded_name } = client.dataValues.properties
+    return branded_name ? branded_name : name
+  })
+  const report = new WcagReport({ audits, clientName })
   return report.generate()
 }

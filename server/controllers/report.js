@@ -1,12 +1,14 @@
 const moment = require('moment')
 const recFixes = require('../controllers/recFixes')
 const newAppendix = require('../config/appendices')
+const models = require('../models')
 class Report {
   constructor(params) {
     this.audits = params.audits
     this.chart = { pass: [], fail: [], category: [] }
     this.tables = { summary: [], recFix: [], fullList: [] }
     this.tableTitles = { summary: 'Portfolio Summary', recFix: 'Recommended Fixes', fullList: 'Full Failure List' }
+    this.clientName = params.clientName
     this.appendices = {}
     this.impactCounts = {
       critical: { pass: 0, fail: 0 },
@@ -16,7 +18,7 @@ class Report {
     }
   }
 
-  generate() {
+  async generate() {
     this.appendices.total = newAppendix()
     this.audits.forEach((audit) => {
       const g5Location = audit.dataValues.g5_updatable_location
@@ -42,7 +44,8 @@ class Report {
       chart: this.chart,
       tables: this.tables,
       tableTitles: this.tableTitles,
-      appendices: this.appendices
+      appendices: this.appendices,
+      clientName: this.clientName
     }
   }
 
