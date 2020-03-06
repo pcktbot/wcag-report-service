@@ -50,7 +50,10 @@
                   <b-card-text class="font-weight-light px-3">
                     There are varying degrees of impact to disabled users. Here’s the breakdown of how implementations on your site are affecting users with a range of disabilities.
                   </b-card-text>
-                  <toggle-btn @toggle-defs="showDefinitions = !showDefinitions" class="align-self-start" />
+                  <toggle-btn
+                    @toggle-defs="showDefinitions = !showDefinitions"
+                    class="align-self-start"
+                  />
                 </b-card-body>
                 <apex-chart
                   :height="350"
@@ -197,44 +200,42 @@
           >
             <template v-slot:thead-top>
               <b-tr class="bg-striped">
-                <b-th colspan="2">
-                  <b-input-group
-                    class="mb-0 font-weight-light d-flex align-items-center"
-                  >
-                    <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light">
-                      Filter to Location
-                    </b-input-group-prepend>
-                    <b-form-select
-                      v-model="helper[findIndex(table.keyId)].filter"
-                      :options="locations"
-                    />
-                    <b-input-group-append
-                      v-show="helper[findIndex(table.keyId)].filter !== ''"
+                <b-th colspan="6">
+                  <div class="d-flex align-items-center justify-content-between w-100">
+                    <b-input-group
+                      class="mb-0 font-weight-light d-flex align-items-center w-50"
                     >
-                      <b-btn
-                        @click="helper.forEach(help => help.filter = '')"
-                        variant="outline-primary"
+                      <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
+                        Filter to Location
+                      </b-input-group-prepend>
+                      <b-form-select
+                        v-model="helper[findIndex(table.keyId)].filter"
+                        :options="locations"
+                      />
+                      <b-input-group-append
+                        v-show="helper[findIndex(table.keyId)].filter !== ''"
                       >
-                        Clear
-                      </b-btn>
-                    </b-input-group-append>
-                  </b-input-group>
-                </b-th>
-                <b-th colspan="2">
-                  <b-form-group
-                    label="Per Page"
-                    label-cols="3"
-                    label-align="right"
-                    class="mb-0 font-weight-light"
-                  >
-                    <b-form-select
-                      v-model="helper[findIndex(table.keyId)].perPage"
-                      :options="[5, 10, 20]"
-                    />
-                  </b-form-group>
-                </b-th>
-                <b-th colspan="2">
-                  <div class="d-flex justify-content-between">
+                        <b-btn
+                          @click="helper.forEach(help => help.filter = '')"
+                          variant="primary"
+                          pill
+                          class="p-0 ml-2"
+                        >
+                          <close-icon :color="`currentColor`" :size="`2em`" />
+                        </b-btn>
+                      </b-input-group-append>
+                    </b-input-group>
+                    <b-form-group
+                      label="Per Page"
+                      label-cols="3"
+                      label-align="right"
+                      class="mb-0 font-weight-light text-uppercase w-25"
+                    >
+                      <b-form-select
+                        v-model="helper[findIndex(table.keyId)].perPage"
+                        :options="[5, 10, 20]"
+                      />
+                    </b-form-group>
                     <b-pagination
                       v-model="helper[findIndex(table.keyId)].currentPage"
                       :total-rows="helper[findIndex(table.keyId)].totalRows"
@@ -300,6 +301,7 @@ import apexOptions from '~/mixins/apex'
 import Drawer from '~/components/drawer'
 import WarningIcon from '~/components/icons/warning'
 import Definitions from '~/components/definitions'
+import CloseIcon from '~/components/icons/close'
 import CardGrid from '~/components/card-grid'
 import Copyright from '~/components/copyright'
 import ToggleBtn from '~/components/toggle-defs'
@@ -313,6 +315,7 @@ export default {
     Drawer,
     Cover,
     WarningIcon,
+    CloseIcon,
     CardGrid,
     Copyright,
     ListIcon,
