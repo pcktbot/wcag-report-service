@@ -18,7 +18,7 @@
         <b-row id="intro" no-gutters>
           <b-col>
             <transition name="fade" appear>
-              <cover />
+              <cover :names="{ client: summary.name, count: summary.totalRows }" />
             </transition>
           </b-col>
         </b-row>
@@ -452,7 +452,8 @@ export default {
       return {
         items: this.response.tables.summary,
         fields: this.createFields(this.response.tables.summary[0]),
-        totalRows: this.response.tables.summary.length
+        totalRows: this.response.tables.summary.length,
+        name: this.response.clientName
       }
     },
     locations() {
