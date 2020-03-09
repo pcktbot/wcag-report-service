@@ -3,8 +3,11 @@ const recFixes = require('../../controllers/recFixes')
 const appendices = require('../../config/appendices')
 const WcagReport = require('../../controllers/report')
 module.exports = (models) => {
-  models.wcag_run.getByTaskName = (project_id, name) => {
-    const where = { project_id, name }
+  models.wcag_run.getByTaskName = (project_id, salesforceId, name) => {
+    let where = { project_id, name }
+    if (salesforceId) {
+      where = { name, salesforceId }
+    }
     return generateReport(where, models)
   }
 }

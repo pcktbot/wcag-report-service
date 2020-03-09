@@ -1,10 +1,13 @@
-const { INTEGER, STRING, JSONB } = require('sequelize')
+const { INTEGER, STRING, JSONB, VIRTUAL, BOOLEAN } = require('sequelize')
 
 module.exports = (sequelize) => {
   const wcagRun = sequelize.define('wcag_run', {
     id: {
       autoIncrement: true,
       primaryKey: true,
+      type: INTEGER
+    },
+    checklist_id: {
       type: INTEGER
     },
     task_id: {
@@ -49,6 +52,18 @@ module.exports = (sequelize) => {
     },
     summary: {
       type: JSONB
+    },
+    salesforceId: {
+      type: STRING
+    },
+    isSFLocation: {
+      type: VIRTUAL,
+      get() {
+        return (this.salesforceId !== null)
+      }
+    },
+    isAA: {
+      type: BOOLEAN
     }
   }, {
     paranoid: true
