@@ -2,6 +2,7 @@ const moment = require('moment')
 const recFixes = require('../../controllers/recFixes')
 const appendices = require('../../config/appendices')
 const WcagReport = require('../../controllers/report')
+
 module.exports = (models) => {
   models.wcag_run.getByTaskName = (project_id, salesforceId, name) => {
     let where = { project_id, name }
