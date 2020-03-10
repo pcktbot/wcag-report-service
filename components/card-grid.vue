@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-row no-gutters class="my-5">
+    <b-row :class="[{ 'is-busy': isBusy }, 'my-5']" no-gutters>
       <b-col
         v-for="(card, i) in cards"
         :key="card.id"
@@ -13,9 +13,6 @@
           <h3 class="intro-header text-uppercase text-tertiary">
             {{ card.heading }}
           </h3>
-          <!-- <h4 class="intro-subheader text-uppercase text-primary">
-            {{ card.subHeading }}
-          </h4> -->
           <p class="font-weight-light">
             {{ card.description }}
           </p>
@@ -55,6 +52,10 @@ export default {
     VueStars
   },
   props: {
+    isBusy: {
+      type: Boolean,
+      default: false
+    },
     cols: {
       type: String,
       return: '4'
@@ -132,6 +133,10 @@ export default {
 </script>
 
 <style>
+.is-busy {
+  transition: 200ms ease-in-out;
+  opacity: 0.5;
+}
 .better-pill {
   border-radius: 10px / 50%;
 }

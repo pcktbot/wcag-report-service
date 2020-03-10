@@ -147,9 +147,10 @@
                   <b-form-select
                     v-model="summaryHelpers.filter"
                     :options="locations"
+                    @change="setAllFilters($event)"
                   />
                 </b-input-group>
-                <card-grid :cards="appendices" :cols="`4`" />
+                <card-grid :cards="appendices" :cols="`4`" :is-busy="summaryHelpers.isBusy"/>
               </div>
             </transition>
           </b-col>
@@ -338,6 +339,7 @@ export default {
       showDefinitions: false,
       appendices: null,
       summaryHelpers: {
+        isBusy: false,
         filter: '',
         csv: [],
         downloadCsv: '',
@@ -469,13 +471,17 @@ export default {
       return this.tables.findIndex(table => table.keyId === id)
     },
     setAllFilters(location) {
-      location === null
+      this.summaryHelpers.isBusy = true
+      location === ''
         ? this.appendices = this.response.appendices.total
         : this.appendices = this.response.appendices[location]
       this.helper.forEach((helper, i) => {
         this.helper[i].filter = location
       })
       this.summaryHelpers.filter = location
+      setTimeout(() => {
+        this.summaryHelpers.isBusy = false
+      }, 500)
     },
     createHelpers(table) {
       this.helper.push({
