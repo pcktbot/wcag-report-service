@@ -39,16 +39,16 @@
         <b-row no-gutters>
           <b-col id="summary" cols="12">
             <transition name="fade" appear>
-              <b-card no-body class="my-5 py-3 border-0">
-                <b-card-header class="border-0">
-                  <h2 class="intro-heading">
+              <b-card no-body bg-variant="white" class="my-5 border-0">
+                <b-card-header class="px-0 border-0 bg-white">
+                  <h2 class="intro-heading mb-0">
                     SUMMARY of USER IMPACT
                   </h2>
-                  <hr width="30%" class="cover-divider mb-5">
+                  <hr width="30%" class="cover-divider mb-0">
                 </b-card-header>
-                <b-card-body class="p-0 d-flex justify-content-between border-0 bg-white">
-                  <b-card-text class="font-weight-light px-3">
-                    There are varying degrees of impact to disabled users. Here’s the breakdown of how implementations on your site are affecting users with a range of disabilities.
+                <b-card-body class="px-0 d-flex justify-content-between border-0 bg-white">
+                  <b-card-text class="font-weight-light pr-3">
+                    This section summarizes the level of impact that accessibility issues have on your website users. We use this information to outline and prioritize items that need to be addressed in order for your website to meet standards. We recommend addressing all issues identified in the report, regardless of severity level. For definitions of the severity levels, please click the ? button.
                   </b-card-text>
                   <toggle-btn
                     @toggle-defs="showDefinitions = !showDefinitions"
@@ -67,91 +67,113 @@
         </b-row>
         <b-row>
           <transition name="fade" appear>
-            <b-col id="by-location" class="my-5">
-              <h2 class="intro-heading">
-                SUMMARY by LOCATION
-              </h2>
-              <hr width="30%" class="cover-divider mb-5">
-              <div class="bg-striped px-4 py-3 d-flex w-100 justify-content-between align-items-end">
-                <b-form-group
-                  label="Locations Per Page"
-                  label-cols="4"
-                  label-align="right"
-                  class="mb-0 font-weight-light text-uppercase flex-grow-1 mr-4"
-                >
-                  <b-form-select
-                    v-model="summaryHelpers.perPage"
-                    :options="[5, 10, 20]"
-                  />
-                </b-form-group>
-                <b-pagination
-                  v-model="summaryHelpers.currentPage"
-                  :total-rows="summary.totalRows"
-                  :per-page="summaryHelpers.perPage"
-                  class="mb-0 font-weight-light"
-                />
-              </div>
-              <b-table
-                ref="summary-of-locations"
-                :items="summary.items"
-                :fields="summary.fields"
-                :sort-desc="false"
-                :per-page="summaryHelpers.perPage"
-                :current-page="summaryHelpers.currentPage"
-                sort-by="name"
-                striped
-              >
-                <template v-slot:cell(name)="{ item }">
-                  <a
-                    v-smooth-scroll
-                    :href="`#by-topic`"
-                    @click="setAllFilters(item.name)"
-                    class="font-weight-bold"
+            <b-col id="by-location">
+              <b-card no-body bg-variant="white" class="my-5 border-0">
+                <b-card-header class="px-0 border-0 bg-white">
+                  <h2 class="intro-heading mb-0">
+                    SUMMARY by PROPERTY
+                  </h2>
+                  <hr width="30%" class="cover-divider mb-0">
+                </b-card-header>
+                <b-card-body class="px-0 intro-paragraph border-0 bg-white">
+                  <b-card-text class="font-weight-light pr-3">
+                    There may be variances in property results based on best practices at the time of implementation, property-specific preferences, and ongoing updates to the website. To filter the results following this section to a single property, feel free to click that property in the results below.
+                  </b-card-text>
+                  <div class="bg-striped px-4 py-3 d-flex w-100 justify-content-between align-items-end">
+                    <b-input-group
+                      class="mb-0 font-weight-light d-flex align-items-center w-50"
+                    >
+                      <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
+                        Properties per Page
+                      </b-input-group-prepend>
+                      <b-form-select
+                        v-model="summaryHelpers.perPage"
+                        :options="[5, 10, 20]"
+                      />
+                    </b-input-group>
+                    <b-pagination
+                      v-model="summaryHelpers.currentPage"
+                      :total-rows="summary.totalRows"
+                      :per-page="summaryHelpers.perPage"
+                      class="mb-0 font-weight-light"
+                    />
+                  </div>
+                  <b-table
+                    ref="summary-of-locations"
+                    :items="summary.items"
+                    :fields="summary.fields"
+                    :sort-desc="false"
+                    :per-page="summaryHelpers.perPage"
+                    :current-page="summaryHelpers.currentPage"
+                    sort-by="name"
+                    striped
                   >
-                    {{ item.name }}
-                  </a>
-                </template>
-                <template v-slot:cell(fail)="{ item }">
-                  <span class="text-tertiary font-weight-bold">
-                    {{ item.fail }}
-                  </span>
-                </template>
-                <template v-slot:cell(axeVersion)="{ item }">
-                  <span class="font-weight-light">
-                    {{ item.axeVersion }}
-                  </span>
-                </template>
-                <template v-slot:cell(date)="{ item }">
-                  <span class="font-weight-light">
-                    {{ item.date }}
-                  </span>
-                </template>
-              </b-table>
+                    <template v-slot:cell(name)="{ item }">
+                      <a
+                        v-smooth-scroll
+                        :href="`#by-topic`"
+                        @click="setAllFilters(item.name)"
+                        class="font-weight-bold"
+                      >
+                        {{ item.name }}
+                      </a>
+                    </template>
+                    <template v-slot:cell(fail)="{ item }">
+                      <span class="text-tertiary font-weight-bold">
+                        {{ item.fail }}
+                      </span>
+                    </template>
+                    <template v-slot:cell(axeVersion)="{ item }">
+                      <span class="font-weight-light">
+                        {{ item.axeVersion }}
+                      </span>
+                    </template>
+                    <template v-slot:cell(date)="{ item }">
+                      <span class="font-weight-light">
+                        {{ item.date }}
+                      </span>
+                    </template>
+                  </b-table>
+                </b-card-body>
+              </b-card>
             </b-col>
           </transition>
         </b-row>
         <b-row id="by-topic">
           <b-col cols="12">
             <transition name="fade" appear>
-              <div>
-                <h2 class="intro-heading text-primary">
-                  SUMMARY BY ACCESSIBILITY TOPIC
-                </h2>
-                <hr width="30%" class="cover-divider mb-5">
-                <b-input-group
-                  class="mb-0 font-weight-light d-flex align-items-center w-50"
-                >
-                  <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
-                    Filter to Location
-                  </b-input-group-prepend>
-                  <b-form-select
-                    v-model="summaryHelpers.filter"
-                    :options="locations"
-                    @change="setAllFilters($event)"
+              <b-card no-body bg-variant="white" class="my-5 border-0">
+                <b-card-header class="px-0 border-0 bg-white">
+                  <h2 class="intro-heading mb-0">
+                    SUMMARY by ACCESSIBILTY TOPIC
+                  </h2>
+                  <hr width="30%" class="cover-divider mb-0">
+                </b-card-header>
+                <b-card-body class="px-0 intro-paragraph border-0 bg-white">
+                  <b-card-text class="font-weight-light pr-3">
+                    Below you will find a summary of how your properties perform by topic, with pass and fail information for each topic. You’re able to view this for all properties or a single property using the filter below.
+                  </b-card-text>
+                  <div class="bg-striped px-4 py-3 d-flex w-100 justify-content-between align-items-end">
+                    <b-input-group
+                      class="mb-0 font-weight-light d-flex align-items-center w-50"
+                    >
+                      <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
+                        Filter to Property
+                      </b-input-group-prepend>
+                      <b-form-select
+                        v-model="summaryHelpers.filter"
+                        :options="locations"
+                        @change="setAllFilters($event)"
+                      />
+                    </b-input-group>
+                  </div>
+                  <card-grid
+                    :is-busy="summaryHelpers.isBusy"
+                    :cards="appendices"
+                    :cols="`4`"
                   />
-                </b-input-group>
-                <card-grid :cards="appendices" :cols="`4`" :is-busy="summaryHelpers.isBusy"/>
-              </div>
+                </b-card-body>
+              </b-card>
             </transition>
           </b-col>
         </b-row>
@@ -207,17 +229,18 @@
                       class="mb-0 font-weight-light d-flex align-items-center w-50"
                     >
                       <b-input-group-prepend class="mb-0 mr-2 text-right font-weight-light text-uppercase">
-                        Filter to Location
+                        Filter to Property
                       </b-input-group-prepend>
                       <b-form-select
                         v-model="helper[findIndex(table.keyId)].filter"
                         :options="locations"
+                        @change="setAllFilters($event)"
                       />
                       <b-input-group-append
                         v-show="helper[findIndex(table.keyId)].filter !== ''"
                       >
                         <b-btn
-                          @click="helper.forEach(help => help.filter = '')"
+                          @click="setAllFilters('')"
                           variant="primary"
                           pill
                           class="p-0 ml-2"
@@ -247,6 +270,11 @@
                   </div>
                 </b-th>
               </b-tr>
+            </template>
+            <template v-slot:empty>
+              <p class="intro-paragraph text-center mb-0">
+                There were no failures for the selected property within this section.
+              </p>
             </template>
             <template v-slot:cell(propertyName)="{ item }">
               <span class="font-weight-bold">
@@ -348,11 +376,11 @@ export default {
       },
       disclaimerText: {
         recFix: {
-          text: 'The items listed below are items you can work with your G5 team to resolve as soon as possible. The page count details the number of pages where the update is needed, while the item count details the instances of the issue.*',
+          text: 'The items listed below are items you can work with your G5 team to resolve as soon as possible. You’re able to views this for all properties or a single property using the filter below. The page count details the number of pages where the update is needed, while the item count details the instances of the issue.*',
           clarification: '*Depending on configuration, a site or page can contain multiple items related to the same review element.'
         },
         fullList: {
-          text: '',
+          text: 'This section is a full list of every failure discovered during the audit. You’re able to view this for all properties or a single property using the filter below.',
           clarification: ''
         }
       },
