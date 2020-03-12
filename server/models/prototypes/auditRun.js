@@ -1,6 +1,5 @@
 const moment = require('moment')
 const recFixes = require('../../controllers/recFixes')
-const appendices = require('../../config/appendices')
 const WcagReport = require('../../controllers/report')
 module.exports = (models) => {
   models.wcag_run.getByTaskName = (project_id, salesforceId, name) => {
@@ -31,16 +30,18 @@ async function generateReport (where, models) {
       ['run_group', 'DESC']
     ]
   })
-  console.log(audits[0].dataValues.g5_updatable_location)
-  const clientName = await models.g5_updatable_client.findOne({
-    where: {
-      urn: audits[0].dataValues.g5_updatable_location.client_urn
-    }
-  }).then(client => {
-    const { name } = client.dataValues
-    const { branded_name } = client.dataValues.properties
-    return branded_name ? branded_name : name
-  })
+  let clientName = ''
+  if (audits[0].g5_updatable_location) {
+    clientName = await models.g5_updatable_client.findOne({
+      where: {
+        urn: audits[0].dataValues.g5_updatable_location.client_urn
+      }
+    }).then((client) => {
+      const { name } = client.dataValues
+      const { branded_name } = client.dataValues.properties
+      return branded_name || name
+    })
+  }
   const report = new WcagReport({ audits, clientName })
   return report.generate()
 }

@@ -18,7 +18,7 @@ class Report {
     }
   }
 
-  async generate() {
+  generate() {
     this.appendices.total = newAppendix()
     this.audits.forEach((audit) => {
       const g5Location = audit.dataValues.g5_updatable_location
@@ -30,6 +30,17 @@ class Report {
         if (summary) {
           this.buildAppendices(summary, locationName)
         }
+      } else {
+        const location = {
+          name: 'Unknown Location',
+          pages: '-',
+          total: '-',
+          pass: '-',
+          fail: '-',
+          axeVersion: '-',
+          date: '-'
+        }
+        this.tables.summary.push(location)
       }
     })
 
