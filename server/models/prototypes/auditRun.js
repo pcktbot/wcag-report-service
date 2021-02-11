@@ -1,5 +1,3 @@
-const moment = require('moment')
-const recFixes = require('../../controllers/recFixes')
 const WcagReport = require('../../controllers/report')
 
 module.exports = (models) => {

@@ -1,9 +1,9 @@
 const moment = require('moment')
 const recFixes = require('../controllers/recFixes')
 const newAppendix = require('../config/appendices')
-const models = require('../models')
+// const models = require('../models')
 class Report {
-  constructor(params) {
+  constructor (params) {
     this.audits = params.audits
     this.chart = { pass: [], fail: [], category: [] }
     this.tables = { summary: [], recFix: [], fullList: [] }
@@ -50,13 +50,14 @@ class Report {
       this.chart.fail.push(this.impactCounts[key].fail)
       this.chart.category.push(key)
     })
-
+    
     return {
       chart: this.chart,
       tables: this.tables,
       tableTitles: this.tableTitles,
       appendices: this.appendices,
-      clientName: this.clientName
+      clientName: this.clientName,
+      isAA: this.audits[0].dataValues.isAA
     }
   }
 
