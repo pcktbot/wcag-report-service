@@ -25,7 +25,7 @@
         <b-row no-gutters>
           <b-col>
             <transition name="fade" appear>
-              <introduction />
+              <introduction :isAA="response.isAA" />
             </transition>
           </b-col>
         </b-row>
