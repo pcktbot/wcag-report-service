@@ -1,5 +1,5 @@
 const moment = require('moment')
-const recFixes = require('../controllers/recFixes')
+const recFixes = require('../controllers/rec-fixes')
 const newAppendix = require('../config/appendices')
 // const models = require('../models')
 class Report {
