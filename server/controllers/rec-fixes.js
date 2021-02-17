@@ -14,5 +14,9 @@ module.exports = [
   'page-has-heading-one',
   'frame-title',
   'list',
-  'listitem'
+  'listitem',
+  'role-img-alt',
+  'input-button-name',
+  'identical-links-same-purpose',
+  'avoid-inline-spacing'
 ]

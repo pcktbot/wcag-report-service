@@ -7,19 +7,19 @@
           WHAT IS WEBSITE ACCESSIBILITY?
         </h2>
         <p class="intro-paragraph">
-          Website accessibility refers to development and design best- practices that all users -- regardless of their disability -- need to perceive, understand, navigate, and interact with a website. The most widely accepted standards for website accessibility are the Web Content Accessibility Guidelines (WCAG) 2.0. These standards provide guidelines for developing websites that accommodate users who rely on assistive devices, adding a layer of usability and improving the experience for all users.
+          Website accessibility refers to development and design best- practices that all users -- regardless of their disability -- need to perceive, understand, navigate, and interact with a website. The most widely accepted standards for website accessibility are the Web Content Accessibility Guidelines (WCAG) 2.1. These standards provide guidelines for developing websites that accommodate users who rely on assistive devices, adding a layer of usability and improving the experience for all users.
         </p>
         <h2 class="intro-heading">
           ABOUT THE G5 WEBSITE ACCESSIBILITY REVIEW REPORT
         </h2>
         <p class="intro-paragraph">
-          The G5 Website Accessibility Review Report identifies issues that may be limiting the accessibility and the performance of your website. To develop this report, we performed a complete scan of your website to assess how well it adheres to WCAG 2.0 Level A standards. We looked at more than 40 elements of accessibility to conduct this report.
+          The G5 Website Accessibility Review Report identifies issues that may be limiting the accessibility and the performance of your website. To develop this report, we performed a complete scan of your website to assess how well it adheres to WCAG 2.1 Level {{ isAA ? 'AA' : 'A' }} standards. We looked at more than 40 elements of accessibility to conduct this report.
         </p>
         <p class="intro-paragraph">
           This Accessibility Review Report includes a summary of accessibility issues identified in our review, along with details about why those elements should be addressed in order to improve accessibility.
         </p>
         <p class="intro-paragraph">
-          G5 will review this report with you and provide guidance for selecting and prioritizing elements to address in order for your website to meet the WCAG 2.0 Level A standards.
+          G5 will review this report with you and provide guidance for selecting and prioritizing elements to address in order for your website to meet the WCAG 2.1 Level {{ isAA ? 'AA' : 'A' }} standards.
         </p>
       </b-col>
       <b-col cols="6">
@@ -54,9 +54,12 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    isAA: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
 </script>
-
-<style>
-
-</style>

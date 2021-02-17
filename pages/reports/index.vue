@@ -25,14 +25,14 @@
         <b-row no-gutters>
           <b-col>
             <transition name="fade" appear>
-              <introduction />
+              <introduction :isAA="response.isAA" />
             </transition>
           </b-col>
         </b-row>
         <b-row no-gutters>
           <b-col id="disclaimer">
             <transition name="fade" appear>
-              <disclaimer />
+              <disclaimer :isAA="response.isAA" />
             </transition>
           </b-col>
         </b-row>
@@ -258,6 +258,7 @@
                       <b-form-select
                         v-model="helper[findIndex(table.keyId)].perPage"
                         :options="[5, 10, 20]"
+                        style="max-width: 75px;"
                       />
                     </b-form-group>
                     <b-pagination
