@@ -32,7 +32,4 @@ image:
 service:
   name: Node
   servicePort: 8085
-activeCloudSQLSubchart: "cloud-sql"
-cloud-sql: 
-  databaseVersion: POSTGRES_11
 
