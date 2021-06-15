@@ -1,0 +1,38 @@
+global: 
+  applicationName: wcag
+  region: us-central1
+configurations:
+  production:
+    configMapData:
+      BROWSER_URL: accessibility.g5marketingcloud.com
+  prime:
+    configMapData:
+      BROWSER_URL: accessibility-opex-prime.g5devops.com
+  staging:
+    configMapData:
+      BROWSER_URL: accessibility-opex-staging.g5devops.com
+replicaCount: 1
+revisionHistoryLimit: 1
+image:
+  repository: g5opex/wcag-report-service
+  tag: 2.0.0
+  pullPolicy: Always
+  resources:
+    requests:
+      cpu: 200m
+      memory: 300Mi
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port : 8085
+  livenessProbe:
+    httpGet:
+      path: /live
+      port : 8085
+service:
+  name: Node
+  servicePort: 8085
+activeCloudSQLSubchart: "cloud-sql"
+cloud-sql: 
+  databaseVersion: POSTGRES_11
+

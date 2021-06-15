@@ -1,0 +1,12 @@
+dependencies:
+- name: cloud-sql
+  repository: gs://g5-multiverse-helm3-repositories
+  version: 1.0.0
+- name: cloud-helper
+  repository: gs://g5-multiverse-helm3-repositories
+  version: 1.0.1
+- name: memorystore
+  repository: gs://g5-multiverse-helm3-repositories
+  version: 1.0.0
+digest: sha256:0829b13eae3f193ce4db3c2a2912c9fc42d1b29c9696a74944beed2fc0a06098
+generated: "2021-01-14T12:34:03.397773-08:00"
