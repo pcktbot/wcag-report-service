@@ -1,0 +1,8 @@
+global: 
+  applicationName: wcag
+image:
+  name: gcr.io/g5-images/accessibility
+configurations:
+  staging:
+
+# TODO BROWSER_URL
