@@ -1,0 +1,9 @@
+logsBucket: "gs://g5-cloud-build-logs"
+steps:
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - "--dockerfile=Dockerfile"
+      - "--destination=gcr.io/g5-images/accessibility:${TAG_NAME}"
+      - "--cache=true"
+      - "--cache-ttl=24h"
+images: [ "gcr.io/g5-images/accessibility:${TAG_NAME}" ]
