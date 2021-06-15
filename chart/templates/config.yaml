@@ -4,6 +4,8 @@ metadata:
   name: {{ .Release.Name | quote }}
   labels:
     {{ include "accessibility.labels" . | nindent 4 }}
+  annotations:
+    reloader.stakater.com/match: "true"
 data:
   {{ include "validate-configuration" . }}
   {{ $configuration := index .Values.configurations .Values.configuration }}
