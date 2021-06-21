@@ -13,7 +13,6 @@
     <path d="M15 18l-6-6 6-6" />
   </svg>
 </template>
-
 <script>
 export default {
   props: {
@@ -28,7 +27,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>
