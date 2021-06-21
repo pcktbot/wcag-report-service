@@ -1,8 +1,9 @@
 global: 
   applicationName: wcag
 image:
-  name: gcr.io/g5-images/accessibility
+  name: gcr.io/g5-images/accessibility-report
 configurations:
   staging:
-
-# TODO BROWSER_URL
+    configMapData:
+      BROWSER_URL: 'https://accessibility-opex-staging.g5devops.com'
+      BASE_URL: 'accessibility-opex-staging.g5devops.com'
