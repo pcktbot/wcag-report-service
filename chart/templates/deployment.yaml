@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name | quote }}
+  labels:
+    {{ include "accessibility.labels" . | nindent 4 }}
+  annotations:
+    reloader.stakater.com/search: "true"
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: "30%"
+      maxSurge: 1
+  selector:
+    matchLabels:
+      {{ include "accessibility.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: node
+      labels:
+        {{ include "accessibility.labels" . | nindent 8 }}
+      annotations:
+        kubectl.kubernetes.io/default-logs-container: node
+    spec:
+      serviceAccountName: {{ include "accessibility.serviceAccountName" . }}
+      containers:
+        - name: node
+          ports:
+            - name: http
+              containerPort: 8085
+          #livenessProbe:
+          #  httpGet:
+          #    path: /healthz
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /healthz
+          #    port: http
+          image: {{ .Values.image.name }}:{{ required "image.tag is required" .Values.image.tag }}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 300Mi
+            requests:
+              cpu: 200m
+              memory: 300Mi
+          env:
+            - name: BROWSER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}
+                  key: BROWSER_URL
+            - name: DATABASE_HOST
+              value: localhost
+            - name: DATABASE_DIALECT
+              value: postgres
+            - name: DATABASE_IDLE
+              value: "10000"
+            - name: DATABASE_AQUIRE
+              value: "10000"
+            - name: DATABASE_EVICT
+              value: "10000"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_SSL
+              value: "false"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: accessibility
+                  key: database-password
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: accessibility
+                  key: database-username
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: accessibility
+                  key: database-name
+            - name: DATABASE_URL
+              value: $(DATABASE_DIALECT)://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST):$(DATABASE_PORT)/$(DATABASE_NAME)
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: 
+            - "/cloud_sql_proxy"
+            - "-instances={{ required "databaseConnectionName is required!" .Values.databaseConnectionName }}=tcp:0.0.0.0:5432"
+          securityContext:
+            runAsUser: 2  # non-root user
+            allowPrivilegeEscalation: false

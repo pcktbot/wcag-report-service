@@ -2,8 +2,8 @@ require('dotenv').config()
 module.exports = {
   mode: 'spa',
   server: {
-    host: process.env.BASE_URL || 'localhost',
-    port: process.env.PORT || 2020
+    host: process.env.BASE_URL || '0.0.0.0',
+    port: process.env.PORT || 8085
   },
   head: {
     title: 'Accessibility Report',

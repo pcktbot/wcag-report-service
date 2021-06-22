@@ -58,7 +58,7 @@ export default {
     },
     cols: {
       type: String,
-      return: '4'
+      default: '4'
     },
     cards: {
       type: Array,

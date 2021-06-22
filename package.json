@@ -1,15 +1,30 @@
 {
   "name": "wcag-report-service",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The G5 Website Accessibility Review Report identifies issues that may be limiting the accessibility and the performance of your website.",
   "author": "David Miller",
+  "config": {
+    "imageRepo": "gcr.io/g5-images/accessibility-report",
+    "imageName": "accessibility-report"
+  }, 
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node server/server.js",
+    "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "docker:build": "source .buildenv && docker build -t $npm_package_config_imageName . --build-arg NPM_TOKEN=$NPM_TOKEN --build-arg BROWSER_URL=$BROWSER_URL",
+    "docker:run": "docker run -p 8085:8085 $npm_package_config_imageName",
+    "docker:tag:prime": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker tag $npm_package_config_imageName $npm_package_config_imageRepo:$branch-$sha-prime",
+    "docker:tag:staging": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker tag $npm_package_config_imageName $npm_package_config_imageRepo:$branch-$sha",
+    "docker:tag:prod": " docker tag $npm_package_config_imageName $npm_package_config_imageRepo:$npm_package_version",
+    "docker:push:prod": "docker push $npm_package_config_imageRepo:$npm_package_version",
+    "docker:push:staging": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker push $npm_package_config_imageRepo:$branch-$sha",
+    "docker:push:prime": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); docker push $npm_package_config_imageRepo:$branch-$sha-prime",
+    "helm:upgrade:prod": "helm upgrade accessibility ./chart/ -f ./chart/opex-prod.yaml --set=image.tag=$npm_package_version",
+    "helm:upgrade:staging": " branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); helm upgrade accessibility ./chart/ -f ./chart/opex-staging.yaml --set=image.tag=$branch-$sha",
+    "helm:upgrade:prime": " branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); sha=$(git rev-parse $branch); helm upgrade accessibility ./chart/ -f ./chart/opex-prime.yaml --set=image.tag=$branch-$sha-prime"
   },
   "dependencies": {
     "@getg5/g5-updatable": "^2.1.0",
@@ -22,8 +37,6 @@
     "cross-env": "^5.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
-    "greenlock-express": "^4.0.3",
-    "greenlock-store-fs": "^3.2.2",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "nuxt": "^2.0.0",
@@ -36,14 +49,17 @@
     "vue2-smooth-scroll": "^1.2.0"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^2.0.0",
-    "@nuxtjs/eslint-module": "^1.0.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^6.1.0",
-    "eslint-plugin-nuxt": ">=0.4.2",
-    "node-sass": "^4.13.1",
-    "nodemon": "^1.18.9",
-    "sass-loader": "^8.0.2",
-    "typescript": "^3.8.2"
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@vue/test-utils": "^1.1.3",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.5.0",
+    "eslint": "^7.19.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "jest": "^26.5.0",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.1",
+    "vue-jest": "^3.0.4"
   }
 }
