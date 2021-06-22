@@ -7,3 +7,11 @@ configurations:
     configMapData:
       BROWSER_URL: 'https://accessibility-opex-staging.g5devops.com'
       BASE_URL: 'accessibility-opex-staging.g5devops.com'
+  prime:
+    configMapData:
+      BROWSER_URL: 'https://accessibility-opex-prime.g5devops.com'
+      BASE_URL: 'accessibility-opex-prime.g5devops.com'
+  production:
+    configMapData:
+      BROWSER_URL: 'https://accessibility.g5marketingcloud.com/'
+      BASE_URL: 'accessibility.g5marketingcloud.com'
